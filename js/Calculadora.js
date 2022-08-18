@@ -17,8 +17,6 @@ if (selector == 3) {
 } else if (selector == 1 ) {
     let resultado = personaje1.find((el) => el.elemento === 1);
     console.log(personaje1);
-} else {
- alert('Error. Ingrese nuevamente el valor.');
 }
 }
 

@@ -5,4 +5,5 @@
 
 output {
     visibility: visible;
+    size: 10px;
 }
