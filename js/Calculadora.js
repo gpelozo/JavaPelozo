@@ -1,3 +1,7 @@
+//boton submit haga nada
+function myFunction() {
+    // en blanco
+}
 //Calculadora de riesgo economico parte 1: Rol MMORPG
 const personaje1 = [];
 //Creando Funcion armadora de elementos del array del personaje
@@ -17,8 +21,36 @@ if (selector == 3) {
     prompt('Error. Ingrese nuevamente el valor.');
 }
 }
+//funcion de display
+function display1() {
+    out1.innerHTML = txt1.value;
+}
 
-//Alerta de Bienvenida
+
+//incorporacion de eventos
+let Ie = display1() ; 
+let F = display1() ; 
+let Ai = display1();
+//salida al display
+btn1.addEventListener('click',display1,solicitarDato(Ie));
+btn1.addEventListener('click',display1,solicitarDato(F));
+btn1.addEventListener('click',display1,solicitarDato(Ai));
+
+
+//Busqueda, Transformacion, y Calculo con Funcion de orden superior Reduce
+let Total = personaje1.reduce((a,b) => a + b, 0);
+console.log(Total);
+
+//Asignacion de Rol
+if ( Total == 9 ) {
+    alert('Resultado:  MAGO . Sabes mucho. Eres un sobreviviente de la Argentina, dominarás el mundo');
+} else if (Total <9 && Total >=4 ){
+    alert('Resultado: GUERRERO . Algo sabes. La peleas todos los dias , defendiéndote de la inflación.  ');
+} else if (Total <4 ){
+    alert('Resultado: ELFO DOBBY . Te falta investigar. Como la alegoría de Platón, saldrás de la cueva en la que vives y verás el sol.');
+}
+
+/*//Alerta de Bienvenida
 alert('Bienvenido a la calculadora de riesgo del Banco Central de la Republica Argentina');
 //Ingreso de Nombre
 let Nombre = prompt('Ingrese su nombre: ');
@@ -44,3 +76,4 @@ if ( Total == 9 ) {
 } else if (Total <4 ){
     alert('Resultado: ELFO DOBBY . Te falta investigar. Como la alegoría de Platón, saldrás de la cueva en la que vives y verás el sol.');
 }
+*/
