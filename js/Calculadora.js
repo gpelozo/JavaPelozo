@@ -18,24 +18,35 @@ if (selector == 3) {
     let resultado = personaje1.find((el) => el.elemento === 1);
     console.log(personaje1);
 } else {
-    prompt('Error. Ingrese nuevamente el valor.');
+ alert('Error. Ingrese nuevamente el valor.');
 }
 }
+
+//Eventos
+const txt1 = document.getElementById('ahorrar');
+const txt2 = document.getElementById('irte');
+const txt3 = document.getElementById('impuestos');
+const btn1 = document.getElementById('btn1');
+const out1 = document.getElementById('output1');
+const out2 = document.getElementById('output2');
+const out3 = document.getElementById('output3');
+btn1.addEventListener('click',display1,solicitarDato);
+
 //funcion de display
 function display1() {
     out1.innerHTML = txt1.value;
+    out2.innerHTML = txt2.value;
+    out3.innerHTML = txt3.value;
 }
 
 
-//incorporacion de eventos
-let Ie = display1() ; 
-let F = display1() ; 
-let Ai = display1();
-//salida al display
-btn1.addEventListener('click',display1,solicitarDato(Ie));
-btn1.addEventListener('click',display1,solicitarDato(F));
-btn1.addEventListener('click',display1,solicitarDato(Ai));
-
+//incorporacion de elementos al Array
+let Ie = txt1;
+solicitarDato(Ie);
+let F = txt2;
+solicitarDato(F); 
+let Ai = txt3;
+solicitarDato(Ai);
 
 //Busqueda, Transformacion, y Calculo con Funcion de orden superior Reduce
 let Total = personaje1.reduce((a,b) => a + b, 0);
