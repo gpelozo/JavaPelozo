@@ -7,3 +7,8 @@ output {
     visibility: visible;
     size: 10px;
 }
+
+.imgNosotros {
+    background-image: url(../images/Logo_Banco_de_la_Nacion_Argentina.svg.png);
+    max-width: 100vw;
+    background-size:cover; }
