@@ -33,3 +33,7 @@ function solicitarDato () {
 }
 //Evento click
 btn1.addEventListener('click', solicitarDato);
+//Definir almacenaje
+const guardarLocal = (clave, valor) => { localStorage.setItem(clave, valor) };
+// Almacenar array completo
+guardarLocal("AtributosPersonaje1", JSON.stringify(personaje1));
