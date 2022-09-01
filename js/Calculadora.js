@@ -31,9 +31,40 @@ function solicitarDato () {
 
     }
 }
+
+//Sweet Alert
+function showAlert () {  
+  swal("Gracias por usar la calculadora de Rol Económico Argentino", {
+      buttons: {
+        cancel: "Borrar Rol",
+        catch: {
+          text: "Guardar Rol",
+          value: "catch",
+        },
+        recalcular: true,
+      },
+    })
+    .then((value) => {
+      switch (value) {
+     
+        case "recalcular":
+          swal("Vuelve a probar tu suerte!");
+          break;
+     
+        case "catch":
+          //Definir almacenaje
+          const guardarLocal = (clave, valor) => { localStorage.setItem(clave, valor) };
+          // Almacenar array completo
+          guardarLocal("AtributosPersonaje1", JSON.stringify(personaje1));
+          swal("Listo!", "Tu Rol ha sido Guardado", "success");
+          break;
+     
+        default:
+          swal("Rol Borrado!");
+      }
+    });
+  }
+
 //Evento click
+btn1.addEventListener('click', showAlert);
 btn1.addEventListener('click', solicitarDato);
-//Definir almacenaje
-const guardarLocal = (clave, valor) => { localStorage.setItem(clave, valor) };
-// Almacenar array completo
-guardarLocal("AtributosPersonaje1", JSON.stringify(personaje1));
