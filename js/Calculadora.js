@@ -64,6 +64,12 @@ function showAlert () {
       }
     });
   }
+//Fetch
+  fetch('https://jsonplaceholder.typicode.com/posts')
+  .then( (resp) => resp.json() )
+  .then( (data) => {
+      console.log(data)
+  })
 
 //Evento click
 btn1.addEventListener('click', showAlert);
