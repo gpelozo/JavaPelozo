@@ -37,7 +37,7 @@ function showAlert () {
   swal("Gracias por usar la calculadora de Rol Económico Argentino", {
       buttons: {
         cancel: "Borrar Rol",
-        catch: {
+        save: {
           text: "Guardar Rol",
           value: "catch",
         },
@@ -51,7 +51,7 @@ function showAlert () {
           swal("Vuelve a probar tu suerte!");
           break;
      
-        case "catch":
+        case "save":
           //Definir almacenaje
           const guardarLocal = (clave, valor) => { localStorage.setItem(clave, valor) };
           // Almacenar array completo
@@ -64,29 +64,95 @@ function showAlert () {
       }
     });
   }
-//Fetch
-  fetch('https://jsonplaceholder.typicode.com/posts')
-  .then( (resp) => resp.json() )
+
+  //borrado
+function callback () {
+let display1 = document.getElementById('ahorrar');
+let display2 = document.getElementById('irte');
+let display3 = document.getElementById('impuestos');
+      display1.innerText = '';
+      display2.innerText = '';
+      display3.innerText = '';
+}
+//Fetch API Banco Central de la Republica Argentina
+  fetch("https://api.estadisticasbcra.com/usd", {
+    headers: {
+      Authorization: 
+      "BEARER eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTUzNTMzNzcsInR5cGUiOiJleHRlcm5hbCIsInVzZXIiOiJnMTU1NDQwNzI4QGdtYWlsLmNvbSJ9.WBdNklXVQTaNQVB1HU5EdyLnSFHXaiN-twEu6pLS82V-K8YehVik_vAj0zys4rMQuBUJ7KOJ7eo3adkkGwRttw",
+ }
+})
+  .then( (response) => response.json() )
   .then( (data) => {
-      console.log(data)
+      console.log(data);
+      let lastElement = data.slice(-1);
+      console.log(lastElement);
+      lastElement.forEach((dolarhoy) => {
+        const content = document.createElement("div")
+        content.innerHTML = `
+      Hoy ${dolarhoy.d} la cotizacion es de ${dolarhoy.v}
+      `;
+      dolarbcra.append(content)
+    })
   })
-//Obtener mi perfil JSON de GitHub
-function exito() {
-    var datos = JSON.parse(this.responseText); //convertir a JSON
-    console.log(datos);
-}
+  .catch(err=>console.log(err))
 
-// funcion para la llamada fallida
-function error(err) {
-    console.log('Solicitud fallida', err); //los detalles en el objecto "err"
-}
-
-var xhr = new XMLHttpRequest(); //invocar nueva instancia de XMLHttpRequest
-xhr.onload = exito; // llamar a la funcion exito si exitosa
-xhr.onerror = error;  // llamar a la funcion error si fallida
-xhr.open('GET', 'https://api.github.com/users/gpelozo'); // Abrir solicitud GET
-xhr.send(); // mandar la solicitud al servidor.
+//Fetch API Bitcoin
+fetch("https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false")
+.then( (response) => response.json() )
+.then( (data) => {
+    console.log(data);
+    let lastElement = data.slice(-1);
+    console.log(lastElement);
+    lastElement.forEach((dolarhoy) => {
+      const content2 = document.createElement("div")
+      content.innerHTML = `
+    <p> Hoy ${dolarhoy.d} la cotizacion es de ${dolarhoy.usd} </p>
+    `;
+    btc.append(content2)
+  })
+})
+.catch(err=>console.log(err))
 
 //Evento click
 btn1.addEventListener('click', showAlert);
+btn1.addEventListener('click', callback);
 btn1.addEventListener('click', solicitarDato);
+compra1.addEventListener('click', showAlert);
+compra2.addEventListener('click', showAlert);
+compra3.addEventListener('click', showAlert);
+
+document.addEventListener('DOMContentLoaded'), () => {
+  fetchData()
+  if (localStorage.getItem('carrito')) {
+    carrito = JSON.parse(localStorage.getItem('carrito'))
+  }
+}
+
+//calculadora
+let display4 = document.getElementById('display');
+let buttons = Array.from(document.getElementsByClassName('button'));
+
+buttons.map(button => {
+  button.addEventListener('click', (e) => {
+    switch(e.target.innerText){
+      case 'C':
+        display4.innerText = '';
+        break;
+      case '←':
+        if(display4.innerText){
+          display4.innerText = display4.innerText.slice(0, -1);
+        }
+        break;
+      case '=':
+          try{
+            display4.innerText = eval(display4.innerText);
+          } catch {
+            display4.innerText = 'Error!';
+          }
+          
+        break;
+      default:
+        display4.innerText += e.target.innerText;
+    }
+  });
+});
