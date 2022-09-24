@@ -98,17 +98,18 @@ let display3 = document.getElementById('impuestos');
 
 //Fetch API Bitcoin
 fetch("https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false")
-.then( (response2) => response2.json() )
-.then( (data2) => {
-    console.log(data2);
-    let lastElement2 = data2.bitcoin.usd;
+.then( (response) => response.json() )
+.then( (data) => {
+    console.log(data);
+    let lastElement2 = [];
+    lastElement2.unshift(data['market_data']['current_price']['usd']);
     console.log(lastElement2);
-    lastElement2.forEach((btchoy) => {
+    lastElement2.forEach((btc) => {
       const content2 = document.createElement("div")
       content2.innerHTML = `
-    <p> Hoy ${btchoy.bitcoin.usd} la cotizacion es de ${btchoy.bitcoin.usd} </p>
+    Hoy la cotizacion es de ${btc}
     `;
-    btc.append(content2)
+    bitcoin.append(content2)
   })
 })
 .catch(err=>console.log(err))
@@ -117,15 +118,11 @@ fetch("https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&tickers
 btn1.addEventListener('click', showAlert);
 btn1.addEventListener('click', callback);
 btn1.addEventListener('click', solicitarDato);
-compra1.addEventListener('click', showAlert);
-compra2.addEventListener('click', showAlert);
-compra3.addEventListener('click', showAlert);
 
 
 
 
-
-//////////CARRITO DE COMPRAS DE DIVISAS
+//CARRITO DE COMPRAS DE DIVISAS
 
 const cards = document.getElementById('cards')
 const items = document.getElementById('items')
@@ -133,11 +130,11 @@ const footer = document.getElementById('footer')
 const templateCard = document.getElementById('template-card').content
 const templateFooter = document.getElementById('template-footer').content
 const templateCarrito = document.getElementById('template-carrito').content
-const fragment = document.createDocumentFragment
+const fragment = document.createDocumentFragment()
 let carrito = {}
 //Eventos
 //cargar una vez cargada la pagina las sesion anterior
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', e => {
   fetchData()
   if(localStorage.getItem('carrito')) {
     carrito = JSON.parse(localStorage.getItem('carrito'))
@@ -155,10 +152,9 @@ items.addEventListener('click', e => {
 //Traer Divisas
 const fetchData = async() => {
   try {
-    const res = await fetch('api.json')
+    const res = await fetch('./js/api.json');
     const data = await res.json()
     pintarCards(data)
-    console.log(data)
   } catch (error) {
     console.log(error)
   }
@@ -166,11 +162,10 @@ const fetchData = async() => {
 
 //Fragment Reflow
 const pintarCards = data => {
-  data.ForEach(producto => {
+  data.forEach(producto => {
     templateCard.querySelector('h5').textContent = producto.title
     templateCard.querySelector('p').textContent = producto.precio
-    templateCard.querySelector('img').setAttribute("src", producto.thumbnailURL)
-    templateCard.querySelector('.btn-primary').dataset.id = producto.id
+    templateCard.querySelector('button').dataset.id = producto.id
 
     const clone = templateCard.cloneNode(true)
     fragment.appendChild(clone)
@@ -181,6 +176,7 @@ const pintarCards = data => {
 //AgregarCarrito
 const addCarrito = e => {
   if (e.target.classList.contains('btn-primary')) {
+    console.log(e.target.dataset.id)
     setCarrito(e.target.parentElement)
   }
   e.stopPropagation()
@@ -188,7 +184,7 @@ const addCarrito = e => {
 //pasar a lista 
 const setCarrito = objeto => {
   const producto = {
-  id: objeto.querySelector('.btn-primary').dataset.id,
+  id: objeto.querySelector('button').dataset.id,
   title: objeto.querySelector('h5').textContent,
   precio: objeto.querySelector('p').textContent,
   cantidad: 1
@@ -234,7 +230,7 @@ const pintarFooter = () => {
   const nPrecio = Object.values(carrito).reduce((acc, {cantidad, precio}) => acc + cantidad * precio,0)
 
   templateFooter.querySelectorAll('td')[0].textContent = nCantidad
-  templateFooter.querySelector('span')[0].textContent = nPrecio
+  templateFooter.querySelector('span').textContent = nPrecio
   
   const clone = templateFooter.cloneNode(true)
   fragment.appendChild(clone)
@@ -248,16 +244,16 @@ const pintarFooter = () => {
 }
 
 //guardarCarrito
-document.addEventListener('DOMContentLoaded'), () => {
+document.addEventListener('DOMContentLoaded', () => {
   fetchData()
   if (localStorage.getItem('carrito')) {
     carrito = JSON.parse(localStorage.getItem('carrito'))
     pintarCarrito()
   }
-}
+})
 //Botones de forma dinamica con delegacion de evento
 const btnAccion = e => {
-  console.log(e.target)
+  console.log(e.target);
   //aumentar
   if (e.target.classList.contains('btn-info')) {
     const producto = carrito[e.target.dataset.id]
@@ -280,8 +276,8 @@ const btnAccion = e => {
 
 
 
-// ////////CALCULADORA AUXILIAR
-let display4 = document.getElementById('display');
+//CALCULADORA AUXILIAR
+let display4 = document.getElementById('display4');
 let buttons = Array.from(document.getElementsByClassName('button'));
 
 buttons.map(button => {
