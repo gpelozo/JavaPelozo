@@ -1,9 +1,21 @@
 
 [
     {
+        "precio": 28000,
+        "id": 1,
+        "title": "bitcoin",
+        "thumbnaillURL": "https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579"
+    },
+    {
       "precio": 282,
-      "id": 1,
+      "id": 2,
       "title": "dolar blue",
-      "thumbnaillURL": ""
+      "thumbnaillURL": "https://upload.wikimedia.org/wikipedia/commons/2/23/US_one_dollar_bill%2C_obverse%2C_series_2009.jpg"
+    },
+    {
+        "precio": 282,
+        "id": 3,
+        "title": "peso boliviano",
+        "thumbnaillURL": "https://tse4.mm.bing.net/th?id=OIP.rMiYQIP7rhfdHkfRVvs7WgHaHa"
     }
   ]
