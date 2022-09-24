@@ -120,11 +120,82 @@ btn1.addEventListener('click', solicitarDato);
 compra1.addEventListener('click', showAlert);
 compra2.addEventListener('click', showAlert);
 compra3.addEventListener('click', showAlert);
+//////////
 
+const items = document.getElementById('items')
+const templateCard = document.getElementById('template-card').content
+const fragment = document.createDocumentFragment
+let carrito = {}
+//cargar una vez cargada la pagina
+document.addEventListener('DOMContentLoaded', () => {
+  fetchData()
+})
+items.addEventListener('click', e => {
+
+})
+//
+const fetchData = async() => {
+  try {
+    const res = await fetch('api.json')
+    const data = await res.json()
+    pintarCards(data)
+    console.log(data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+//Fragment Reflow
+const pintarCards = data => {
+  data.ForEach(producto => {
+    templateCard.querySelector('h5').textContent = producto.title
+    templateCard.querySelector('p').textContent = producto.precio
+    templateCard.querySelector('img').setAttribute("src", producto.thumbnailURL)
+    templateCard.querySelector('.btn-primary').dataset.id = producto.id
+
+    const clone = templateCard.cloneNode(true)
+    fragment.appendChild(clone)
+  })
+  items.appendChild(fragment)
+}
+
+//AgregarCarrito
+const addCarrito = e => {
+  console.log(e.target)
+  console.log(e.target.classList.contains('btn-primary'))
+  if (e.target.classList.contains('btn-primary')) {
+    setCarrito(e.target.parentElement)
+
+  }
+  e.stopPropagation()
+}
+//pasar a lista 
+const setCarrito = objeto => {
+  const producto = {
+  id: objeto.querySelector('.btn-primary').dataset.id,
+  title: objeto.querySelector('h5').textContent,
+  precio: objeto.querySelector('p').textContent,
+  cantidad: 1
+}
+
+if (carrito.hasOwnProperty(producto.id)){
+producto.cantidad = carrito[producto.id].cantidad + 1
+}
+carrito[producto.id] = {...producto}
+console.log(carrito)
+}
+//Carrito
+let Ejcarrito = {
+  1: { nombre: "item 1"},
+  2: { nombre: "item 2"},
+};
+
+//guardarCarrito
 document.addEventListener('DOMContentLoaded'), () => {
   fetchData()
   if (localStorage.getItem('carrito')) {
     carrito = JSON.parse(localStorage.getItem('carrito'))
+    pintarCarrito()
   }
 }
 
