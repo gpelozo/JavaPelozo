@@ -98,15 +98,15 @@ let display3 = document.getElementById('impuestos');
 
 //Fetch API Bitcoin
 fetch("https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false")
-.then( (response) => response.json() )
-.then( (data) => {
-    console.log(data);
-    let lastElement = data.slice(-1);
-    console.log(lastElement);
-    lastElement.forEach((dolarhoy) => {
+.then( (response2) => response2.json() )
+.then( (data2) => {
+    console.log(data2);
+    let lastElement2 = data2.bitcoin.usd;
+    console.log(lastElement2);
+    lastElement2.forEach((btchoy) => {
       const content2 = document.createElement("div")
-      content.innerHTML = `
-    <p> Hoy ${dolarhoy.d} la cotizacion es de ${dolarhoy.usd} </p>
+      content2.innerHTML = `
+    <p> Hoy ${btchoy.bitcoin.usd} la cotizacion es de ${btchoy.bitcoin.usd} </p>
     `;
     btc.append(content2)
   })
