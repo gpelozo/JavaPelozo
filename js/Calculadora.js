@@ -273,8 +273,10 @@ const btnAccion = e => {
     producto.cantidad--
     if (producto.cantidad === 0) {
       delete carrito[e.target.dataset.id]
-      pintarCarrito()
+    } else {
+      carrito[e.target.dataset.id] = {...producto}
     }
+    pintarCarrito()
   }
 
   e.stopPropagation()
