@@ -52,10 +52,6 @@ function showAlert () {
           break;
      
         case "save":
-          //Definir almacenaje
-          const guardarLocal = (clave, valor) => { localStorage.setItem(clave, valor) };
-          // Almacenar array completo
-          guardarLocal("AtributosPersonaje1", JSON.stringify(personaje1));
           swal("Listo!", "Tu Rol ha sido Guardado", "success");
           break;
      
@@ -64,8 +60,7 @@ function showAlert () {
       }
     });
   }
-
-  //borrado
+//borrado
 function callback () {
 let display1 = document.getElementById('ahorrar');
 let display2 = document.getElementById('irte');
@@ -89,8 +84,8 @@ let display3 = document.getElementById('impuestos');
       lastElement.forEach((dolarhoy) => {
         const content = document.createElement("div")
         content.innerHTML = `
-      Hoy ${dolarhoy.d} la cotizacion es de ${dolarhoy.v}
-      `;
+        Hoy ${dolarhoy.d} la cotizacion es de <p>${dolarhoy.v}</p>
+        `;
       dolarbcra.append(content)
     })
   })
@@ -107,12 +102,35 @@ fetch("https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&tickers
     lastElement2.forEach((btc) => {
       const content2 = document.createElement("div")
       content2.innerHTML = `
-    Hoy la cotizacion es de ${btc}
+    Hoy la cotizacion es de <p>${btc}</p>
     `;
     bitcoin.append(content2)
   })
 })
 .catch(err=>console.log(err))
+
+//Fetch API Peso Boliviano
+let myHeaders = new Headers();
+myHeaders.append("apikey", "MfSzokKLrnxHgXJgJlxCyMZI2bx9K9uL");
+
+let requestOptions = {
+  method: 'GET',
+  redirect: 'follow',
+  headers: myHeaders
+};
+fetch("https://api.apilayer.com/fixer/convert?to=ARS&from=BOB&amount=1", requestOptions)
+  .then(response => response.text())
+  .then(data => {
+    console.log(data);
+    let lastElement3 = JSON.parse(data);
+    console.log(lastElement3);
+      const content3 = document.createElement("div")
+      content3.innerHTML = `
+    Hoy la cotizacion es de <p>${lastElement3.result}</p>
+    `;
+    pesobob.append(content3)
+  })
+  .catch(error => console.log('error', error));
 
 //Evento click
 btn1.addEventListener('click', showAlert);
@@ -135,7 +153,6 @@ let carrito = {}
 //Eventos
 //cargar una vez cargada la pagina las sesion anterior
 document.addEventListener('DOMContentLoaded', e => {
-  fetchData()
   if(localStorage.getItem('carrito')) {
     carrito = JSON.parse(localStorage.getItem('carrito'))
     pintarCarrito()
@@ -149,16 +166,6 @@ cards.addEventListener('click', e => {
 items.addEventListener('click', e => {
   btnAccion(e)
 })
-//Traer Divisas
-const fetchData = async() => {
-  try {
-    const res = await fetch('./js/api.json');
-    const data = await res.json()
-    pintarCards(data)
-  } catch (error) {
-    console.log(error)
-  }
-}
 
 //Fragment Reflow
 const pintarCards = data => {
@@ -245,7 +252,6 @@ const pintarFooter = () => {
 
 //guardarCarrito
 document.addEventListener('DOMContentLoaded', () => {
-  fetchData()
   if (localStorage.getItem('carrito')) {
     carrito = JSON.parse(localStorage.getItem('carrito'))
     pintarCarrito()
